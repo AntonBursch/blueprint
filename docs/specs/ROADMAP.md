@@ -186,14 +186,18 @@ that accumulates contradictions.
 
 ## 3. Working policy
 
-### 3.1 Branch strategy
-Normative specification work is drafted on a `drafts` branch (or per-document
-feature branches) and merged to `main` only when a document reaches a
-presentable state. This mirrors how IETF internet-drafts, W3C working drafts,
-and the OpenAPI Initiative operate.
+### 3.1 Branch and tag strategy
+Specification work is committed directly to `main`. Per-round feature
+branches are not used, because the two authors review against the working
+tree and mid-round fixes to earlier rounds must stay easy.
 
-Rationale: the repository is public. A person arriving at `main` should see
-coherent material, not half-formed thinking.
+At the completion and review of each round, `main` is tagged
+`v0.1.0-draft-roundN` (e.g. `v0.1.0-draft-round1`). Tags provide milestone
+markers, easy inter-round diffs, and a clean branch-off point if a
+round-in-progress ever needs to be shared for external review.
+
+Feature branches are created only when a round-in-progress is being shared
+externally for review before it lands.
 
 ### 3.2 Status banners
 Every spec document carries a status line near the top:
