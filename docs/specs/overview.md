@@ -127,6 +127,14 @@ Channels are the only means by which compounds communicate across scope boundari
 
 Channels are typed. Every value placed on a channel MUST validate against the channel's declared schema. Engines MUST reject messages that do not validate.
 
+A channel's schema describes the **logical shape** of its payload, not a runtime wire encoding. Engines are free to represent payloads in whatever form is most efficient for the channel's context:
+
+- **In-memory channels** (between compounds in the same engine process) use the engine's native runtime representation. Validation at channel boundaries is REQUIRED for correctness but MAY be elided when the producer's type system already guarantees conformance to the schema.
+- **Streaming and binary channels** (audio, video, tensors, raw buffers) pass their payloads in binary form at runtime. Their schemas describe the logical shape using JSON Schema's `contentMediaType`, `contentEncoding`, and `$ref` facilities, optionally with Blueprint-registered extensions for format-specific metadata.
+- **Cross-process channels** (between engines in different processes, hosts, or devices) require a wire encoding. JSON is the default wire encoding; engine pairs MAY negotiate a more compact encoding (MessagePack, CBOR, Protobuf, Avro, Arrow) provided the payload round-trips without loss and continues to validate against the channel's declared schema.
+
+Canonical serialization (for the Blueprint document itself, for snapshots, and for signed marks) is JSON and is defined in the canonical-form section of the specification. Runtime channel encoding is an implementation concern, not part of canonical form.
+
 ### 4.4 State
 
 **State** is the evolving data a compound carries over time. A compound's state is declared as a named collection of fields, each with a schema.
@@ -146,6 +154,8 @@ Scope also governs **capability propagation**: certain capabilities (access to a
 ### 4.6 Schema
 
 A **schema** is the typed shape of data. Blueprint uses [JSON Schema](https://json-schema.org/) (draft 2020-12) for all schema declarations: channel payloads, state fields, compound interfaces, and document-level schemas.
+
+Schemas describe logical shape. They are not a prescription of runtime encoding. A value validates against a schema when its logical structure conforms to the schema's constraints, regardless of whether the value is currently represented as a JavaScript object, a Kotlin data class, a Python dict, a binary buffer, or a serialized byte stream.
 
 Schemas MUST be declared inline or referenced by URI. Engines MUST validate all data crossing schema boundaries. Invalid data MUST be rejected with a diagnostic that identifies the offending field and the violated constraint.
 
