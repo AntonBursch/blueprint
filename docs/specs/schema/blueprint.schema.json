@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://specs.blueprint.build/0.1.0-draft/schema/blueprint.schema.json",
+  "title": "Blueprint",
+  "description": "The top-level Blueprint artifact. Normative prose: docs/specs/vocabulary/blueprint.md. This schema encodes well-formedness (structural shape, required fields, enums, extension-namespace passthrough). Validity — entry resolves to a composed compound, signature.mark resolves to a mark, same-id-different-canonical-form conflicts, imports resolve — is left to engines.",
+
+  "type": "object",
+  "required": ["blueprint", "id", "compounds", "entry"],
+  "additionalProperties": false,
+  "patternProperties": {
+    "^(x-|ext\\.)": true
+  },
+
+  "properties": {
+    "blueprint": {
+      "description": "Specification version this document conforms to. SemVer 2.0.0; documents targeting a draft specification carry a `-draft` suffix.",
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?$"
+    },
+
+    "id": {
+      "description": "Stable identifier for this Blueprint. URI per RFC 3986; URN form under an author- or publisher-controlled namespace is recommended.",
+      "type": "string",
+      "format": "uri",
+      "minLength": 1
+    },
+
+    "title": {
+      "description": "Human-readable title.",
+      "type": "string"
+    },
+
+    "description": {
+      "description": "Human-readable description.",
+      "type": "string"
+    },
+
+    "status": {
+      "description": "Lifecycle state. Absent means draft. Full rules in docs/specs/vocabulary/draft.md.",
+      "type": "string",
+      "enum": ["draft", "released"]
+    },
+
+    "compounds": {
+      "description": "Object of compound declarations keyed by document-local name. The interior shape of a compound is not locked in 0.1.0-draft and is finalized in a later round; engines MUST preserve unknown fields.",
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1
+      },
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+
+    "entry": {
+      "description": "Name of the compound in `compounds` that is the Blueprint's root of execution. Exactly one. That the name resolves to a composed compound with no parameters is a validity rule enforced by engines.",
+      "type": "string",
+      "minLength": 1
+    },
+
+    "schemas": {
+      "description": "Top-level named schemas addressable by `#/schemas/<name>`. Each value MUST be a valid JSON Schema 2020-12 document; this schema does not re-validate the dialect here.",
+      "type": "object",
+      "propertyNames": { "type": "string", "minLength": 1 },
+      "additionalProperties": true
+    },
+
+    "imports": {
+      "description": "External Blueprints and registries this Blueprint depends on. Each entry binds an alias to a reference and a version pin. Detailed pin format is in docs/specs/vocabulary/compound.md §6.2 and is deliberately light-touch in 0.1.0-draft.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/importDecl" }
+    },
+
+    "marks": {
+      "description": "Ordered authorship trace. Array order is authoritative.",
+      "type": "array",
+      "items": { "$ref": "mark.schema.json" }
+    },
+
+    "signatures": {
+      "description": "Cryptographic proofs committing marks or the whole Blueprint.",
+      "type": "array",
+      "items": { "$ref": "signature.schema.json" }
+    },
+
+    "metadata": {
+      "description": "Unstructured informational fields. Engines MUST NOT attribute runtime behavior to anything in this object.",
+      "type": "object"
+    }
+  },
+
+  "$defs": {
+    "importDecl": {
+      "type": "object",
+      "required": ["alias", "ref", "pin"],
+      "additionalProperties": false,
+      "patternProperties": {
+        "^(x-|ext\\.)": true
+      },
+      "properties": {
+        "alias": {
+          "description": "Local alias for the imported Blueprint. Unique within this Blueprint.",
+          "type": "string",
+          "minLength": 1
+        },
+        "ref": {
+          "description": "Reference to the imported artifact: a Blueprint `id`, a registry URI, or a URL.",
+          "type": "string",
+          "format": "uri",
+          "minLength": 1
+        },
+        "pin": {
+          "description": "Version pin per docs/specs/vocabulary/compound.md §6.2. Engines MUST fail the load if an import resolves to a different canonical form than the pin commits to.",
+          "type": ["string", "object"],
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

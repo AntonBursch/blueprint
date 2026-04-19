@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://specs.blueprint.build/0.1.0-draft/schema/mark.schema.json",
+  "title": "Blueprint Mark",
+  "description": "A single authorship event recorded in a Blueprint's `marks` array. Normative prose: docs/specs/vocabulary/mark.md. This schema encodes well-formedness only; validity rules (unique id, signature resolution) are left to engines.",
+
+  "type": "object",
+  "required": ["id", "target", "author", "timestamp", "action"],
+  "additionalProperties": false,
+  "patternProperties": {
+    "^(x-|ext\\.)": true
+  },
+
+  "properties": {
+    "id": {
+      "description": "UUID (RFC 4122 canonical lowercase) or sha256:<64 lowercase hex>.",
+      "type": "string",
+      "oneOf": [
+        { "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" },
+        { "pattern": "^sha256:[0-9a-f]{64}$" }
+      ]
+    },
+
+    "target": {
+      "description": "The element this mark applies to: the literal string \"blueprint\", a bare compound name, or a JSON Pointer (RFC 6901) rooted at the Blueprint document.",
+      "type": "string",
+      "minLength": 1,
+      "anyOf": [
+        { "const": "blueprint" },
+        { "pattern": "^/" },
+        { "pattern": "^[^/\\s][^\\s]*$" }
+      ]
+    },
+
+    "author": { "$ref": "#/$defs/author" },
+
+    "timestamp": {
+      "description": "RFC 3339 date-time with explicit time-zone offset.",
+      "type": "string",
+      "format": "date-time"
+    },
+
+    "action": {
+      "description": "The six normative mark actions. Vocabulary is closed in 0.1.0-draft.",
+      "type": "string",
+      "enum": ["create", "modify", "remove", "approve", "release", "revoke"]
+    },
+
+    "rationale": {
+      "description": "Human-readable explanation of the change.",
+      "type": "string"
+    },
+
+    "provenance": {
+      "description": "Pointer to the prompt, conversation, ticket, or decision that produced this mark. Shape is engine- and tool-defined; this schema leaves it open.",
+      "type": ["object", "string"]
+    },
+
+    "signature": {
+      "description": "A signature committing this mark. When present, the signature signs over the canonical form of the mark with this field removed.",
+      "$ref": "signature.schema.json"
+    }
+  },
+
+  "$defs": {
+    "author": {
+      "description": "Structured author identity. `kind` is authoritative; readers MUST NOT infer kind from `id`.",
+      "type": "object",
+      "required": ["kind", "id"],
+      "additionalProperties": false,
+      "patternProperties": {
+        "^(x-|ext\\.)": true
+      },
+      "properties": {
+        "kind": { "type": "string", "enum": ["human", "machine", "tool"] },
+        "id": { "type": "string", "minLength": 1 },
+        "display": { "type": "string" },
+        "machine": {
+          "type": "object",
+          "required": ["model", "version"],
+          "additionalProperties": false,
+          "patternProperties": {
+            "^(x-|ext\\.)": true
+          },
+          "properties": {
+            "model": { "type": "string", "minLength": 1 },
+            "version": { "type": "string", "minLength": 1 },
+            "operator": { "$ref": "#/$defs/author" }
+          }
+        },
+        "tool": {
+          "type": "object",
+          "required": ["name", "version"],
+          "additionalProperties": false,
+          "patternProperties": {
+            "^(x-|ext\\.)": true
+          },
+          "properties": {
+            "name": { "type": "string", "minLength": 1 },
+            "version": { "type": "string", "minLength": 1 }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if":   { "properties": { "kind": { "const": "machine" } }, "required": ["kind"] },
+          "then": { "required": ["machine"] }
+        },
+        {
+          "if":   { "properties": { "kind": { "const": "tool" } }, "required": ["kind"] },
+          "then": { "required": ["tool"] }
+        },
+        {
+          "if":   { "properties": { "kind": { "const": "human" } }, "required": ["kind"] },
+          "then": { "not": { "anyOf": [ { "required": ["machine"] }, { "required": ["tool"] } ] } }
+        }
+      ]
+    }
+  }
+}

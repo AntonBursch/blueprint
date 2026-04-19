@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://specs.blueprint.build/0.1.0-draft/schema/signature.schema.json",
+  "title": "Blueprint Signature",
+  "description": "A cryptographic proof binding a mark or a whole Blueprint to its author. Normative prose: docs/specs/vocabulary/signature.md. This schema encodes well-formedness only; cryptographic validity, canonical-form computation, and identity binding are verifier concerns.",
+
+  "type": "object",
+  "required": ["id", "mark", "algorithm", "public_key", "signature"],
+  "additionalProperties": false,
+  "patternProperties": {
+    "^(x-|ext\\.)": true
+  },
+
+  "properties": {
+    "id": {
+      "description": "Unique identifier for this signature within the Blueprint.",
+      "type": "string",
+      "minLength": 1
+    },
+
+    "mark": {
+      "description": "The literal string \"blueprint\" for a whole-document signature, or the `id` of a mark in the Blueprint's marks array.",
+      "type": "string",
+      "minLength": 1,
+      "oneOf": [
+        { "const": "blueprint" },
+        { "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" },
+        { "pattern": "^sha256:[0-9a-f]{64}$" }
+      ]
+    },
+
+    "algorithm": {
+      "description": "Signing algorithm. Named algorithms are the closed 0.1.0-draft set. Extensions MUST use the x-/ext. namespace.",
+      "type": "string",
+      "anyOf": [
+        { "enum": ["ed25519", "ecdsa-p256-sha256", "rsa-pss-sha256"] },
+        { "pattern": "^(x-|ext\\.)" }
+      ]
+    },
+
+    "public_key": {
+      "description": "Author's public key, base64url-encoded (RFC 4648 §5, no padding).",
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "minLength": 1
+    },
+
+    "signature": {
+      "description": "Signature bytes, base64url-encoded (RFC 4648 §5, no padding).",
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "minLength": 1
+    },
+
+    "key_binding": {
+      "description": "Optional reference establishing the author's identity (URI, DID, X.509 chain, or a structured object). Shape is intentionally open: this specification does not prescribe an identity system in 0.1.0-draft.",
+      "type": ["string", "object"]
+    }
+  }
+}
