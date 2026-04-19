@@ -21,15 +21,22 @@ authorship claims verifiable and to make released Blueprints tamper-evident.
 1. What a signature is
 2. Signature structure (algorithm, public key, signature bytes, signed-over)
 3. Supported algorithms
-4. Key identity and key rotation
-5. Signing targets (whole Blueprint, specific marks, specific compounds)
-6. Verification procedure
-7. Relationship to canonical form
-8. Signature revocation
-9. Trust model and out-of-scope concerns
-10. Normative requirements
-11. Examples
-12. Open questions
+4. Algorithms MUST be implementable symmetrically by human and machine operators
+5. Key identity and key rotation
+6. Machine signing keys are first-class; a signature from a machine is no weaker than one from a human
+7. Signing targets (whole Blueprint, specific marks, specific compounds)
+8. Verification procedure
+9. Relationship to canonical form
+10. Signature revocation (first-class)
+11. Trust model and out-of-scope concerns
+12. Normative requirements
+13. Examples
+14. Open questions
+
+The normative content of this document must be faithful to the rationale
+established in [rationale/co-authorship.md](../rationale/co-authorship.md)
+and relies on the canonical serialization fixed in
+[canonical-form.md](../canonical-form.md).
 
 ---
 

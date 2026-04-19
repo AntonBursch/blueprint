@@ -24,14 +24,19 @@ the shop responsible for a work.
 1. What a mark is
 2. Mark structure (author, kind, target, timestamp, parent, message)
 3. Author identity: human, AI, tool, organization
-4. Distinguishing AI and human authorship
-5. Mark kinds (create, modify, approve, reject, annotate, release)
-6. Attachment to scopes, compounds, channels, states
-7. Chains and history
-8. Approval workflows
-9. Normative requirements
-10. Examples
-11. Open questions
+4. Author kind is structural, not inferred from the author name
+5. Required fields for machine-author identity (model, version, operating context)
+6. Distinguishing AI and human authorship without privileging either
+7. Mark kinds (create, modify, approve, reject, annotate, release)
+8. Attachment to scopes, compounds, channels, states
+9. Marks are additive, not overwriting; chains and history
+10. Approval workflows
+11. Normative requirements
+12. Examples
+13. Open questions
+
+The normative content of this document must be faithful to the rationale
+established in [rationale/co-authorship.md](../rationale/co-authorship.md).
 
 ---
 
