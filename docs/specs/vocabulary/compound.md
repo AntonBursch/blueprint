@@ -491,8 +491,8 @@ A conforming Blueprint document:
 6. MUST NOT reference a compound by name unless the name resolves to
    a compound declared locally or imported.
 7. MUST specify the version of every imported artifact.
-8. MUST preserve base-compound marks on any overlay and MUST add an
-   overlay mark.
+8. MUST preserve the base compound's marks on any overlay and MUST
+   add a mark recording the overlay.
 
 A conforming engine:
 
@@ -565,9 +565,9 @@ configurable step size.
 }
 ```
 
-`Counter` has two parameters (well, one — `step`), one input, one output,
-one exposed state, and one internal state field. Its implementation is
-a core primitive, referenced by name.
+`Counter` has one parameter (`step`), one input, one output, one
+exposed state, and one internal state field. Its implementation is a
+core primitive, referenced by name.
 
 ### 11.2 A composed compound
 
