@@ -39,8 +39,8 @@ canonicalize(value) -> bytes
 that takes a JSON value — the Blueprint document, a mark object, or a
 compound declaration — and returns a byte sequence such that:
 
-1. Two JSON values that are equal under the [JSON 2020-12](https://www.rfc-editor.org/rfc/rfc8259)
-   data model produce the same bytes.
+1. Two JSON values that are equal under the [RFC 8259](https://www.rfc-editor.org/rfc/rfc8259)
+   JSON data model produce the same bytes.
 2. Any conforming implementation, in any language, produces the same
    bytes from the same value.
 3. The bytes are valid UTF-8 JSON, parseable by any conforming

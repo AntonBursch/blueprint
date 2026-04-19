@@ -152,7 +152,7 @@ compound (§6). `compounds` MUST NOT be empty.
 MUST reject Blueprints with duplicate compound names.
 
 **R-13.** Compound names SHOULD follow the identifier rules described
-in [compound.md](compound.md) §2. Names containing characters that
+in [compound.md](compound.md) §7.1. Names containing characters that
 conflict with JSON Pointer escaping
 ([RFC 6901](https://www.rfc-editor.org/rfc/rfc6901) §3) are permitted
 but discouraged; authoring tools that emit such names MUST escape
