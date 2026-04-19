@@ -5,11 +5,11 @@ engine MUST, SHOULD, and MAY do when it loads and executes a Blueprint.
 
 | Topic | Document | Status |
 |---|---|---|
-| Composition | [composition.md](composition.md) | Draft (placeholder) |
-| Lifecycle | [lifecycle.md](lifecycle.md) | Draft (placeholder) |
-| Scope propagation | [scope-propagation.md](scope-propagation.md) | Draft (placeholder) |
-| Channel delivery | [channel-delivery.md](channel-delivery.md) | Draft (placeholder) |
-| Determinism | [determinism.md](determinism.md) | Draft (placeholder) |
-| Authorship (runtime) | [authorship.md](authorship.md) | Draft (placeholder) |
+| Composition | [composition.md](composition.md) | Draft |
+| Lifecycle | [lifecycle.md](lifecycle.md) | Draft |
+| Scope propagation | [scope-propagation.md](scope-propagation.md) | Draft |
+| Channel delivery | [channel-delivery.md](channel-delivery.md) | Draft |
+| Determinism | [determinism.md](determinism.md) | Draft |
+| Authorship (runtime) | [authorship.md](authorship.md) | Draft |
 
-See [ROADMAP.md](../ROADMAP.md) for authoring order.
+Authored in Round 5. See [ROADMAP.md](../ROADMAP.md) for authoring order.
