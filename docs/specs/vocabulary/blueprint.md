@@ -117,8 +117,8 @@ The `id` SHOULD be a [URN](https://www.rfc-editor.org/rfc/rfc8141)
 under a namespace controlled by the Blueprint's author or publisher.
 For example:
 
-- `urn:blueprint:conedison:weather-dashboard`
-- `urn:blueprint:acme:billing:invoice-approval`
+- `urn:blueprint:acme:weather-dashboard`
+- `urn:blueprint:example:billing:invoice-approval`
 
 Other URI forms are permitted when the context requires them (HTTPS
 URLs for registry-hosted Blueprints, for example).

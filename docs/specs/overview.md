@@ -8,6 +8,26 @@
 
 ---
 
+## 0. Purpose
+
+Blueprint exists so that software built with AI can enter consequential domains without dissolving the accountability those domains depend on.
+
+The word "blueprint" is chosen deliberately. A blueprint in the architectural sense is a signed document. An engineer seals it. An inspector checks it against code. A contractor builds from it. If the building fails, investigators retrieve the blueprint, trace the signatures, and assign responsibility. The document persists. The chain of accountability is legible long after the building is occupied.
+
+Software that runs utilities, hospitals, factories, grids, pipelines, logistics, and finance deserves the same treatment. For most of computing history it has not received it. Source code is rarely signed, rarely reviewed as a composable artifact, rarely durable across the platforms it targets, and rarely legible to the domain professionals whose work it governs. The arrival of capable AI code generation makes this gap urgent. AI can now produce software faster than any review process can audit it, in domains where unreviewed software causes measurable harm.
+
+The common response inside the technology field is that AI will become trustworthy enough that human accountability can be relaxed. The Blueprint specification rejects this position. Capability and accountability are orthogonal. A more capable system without accountability has a larger blast radius, not a smaller one. Every prior wave of powerful technology — pharmaceuticals, aviation, automobiles, broadcast, finance — became safe through accountability infrastructure built around it: certifications, signatures, audits, trials, licensed professionals, and legal liability that lands on humans. None became safe by becoming smart. AI will be no different, and the longer the technology field waits for intelligence to substitute for accountability, the larger the eventual correction.
+
+Blueprint is the accountability infrastructure for AI-assisted software in serious domains. It is not an anti-AI position and it is not a defensive one. It is a structural claim: AI's contribution to software is creative and therefore error-prone, which is a feature of creativity rather than a defect to be engineered away; errors from creative systems require accountability; accountability requires an agent that can be held responsible; AI cannot be held responsible in any meaningful sense; therefore a named human must remain responsible for every artifact that ships, and the tools we build must make that responsibility legible by construction rather than by discipline.
+
+Every technical decision in this specification follows from that claim. The code-and-composition boundary (§1.4, [authoring-roles.md](authoring-roles.md)) exists because AI may compose freely over reviewed primitives but must not author unreviewed imperative code into production. Compounds exist as the unit at which a human engineer takes responsibility. Signatures and marks (§6, §7) exist so that responsibility is recorded, not remembered. The open, vendor-neutral specification exists because accountability infrastructure cannot be owned by one vendor and cannot be subject to a central authority. The cross-engine, cross-platform runtime contract exists because the organizations that most need this property cannot accept lock-in as a condition of safety. Grammar plurality (DAGs, state machines, behavior trees, scene graphs, event streams) exists because domain fidelity lowers the chance that AI misunderstands what it is composing.
+
+Blueprint's purpose, stated directly: **to let the world adapt to AI deliberately rather than through disaster.** The specification does not pretend that AI should be kept out of consequential work. It takes for granted that AI will be used, and it insists — through structure rather than exhortation — that humans remain the accountable authors of what runs. This is the only position under which AI can responsibly participate in the domains that carry real weight.
+
+The specification is open so that this infrastructure cannot be owned, captured, or revoked. It is implementable on any platform so that it cannot be lock-in. It is legible to domain professionals so that the people whose work is governed by the software can read, question, and refuse it. These are not features. They are conditions of the purpose.
+
+---
+
 ## 1. Introduction
 
 A **Blueprint** is a JSON document that describes an application.
@@ -34,7 +54,16 @@ Three preconditions are in place that were not in place before:
 2. **AI can produce structured output reliably.** Large language models can generate, modify, and reason over JSON documents at a register that was not possible until recently. Blueprint is designed to be a target for AI authorship, not only a target for human authorship.
 3. **Cross-platform rendering engines exist.** React, Flutter, Compose, and their equivalents have converged on compatible component models. A single semantic vocabulary can now be rendered coherently across web, mobile, desktop, and embedded targets.
 
+### 1.4 Code is written by engineers; compositions are authored by anyone
+
+Blueprint distinguishes between **writing code** and **authoring a composition**. Code — the imperative implementation inside a compound, processor, connection, or widget — is the responsibility of a human engineer, who MAY use AI as a tool but remains accountable for what ships. A composition — the wiring of reviewed compounds into an application — MAY be authored by anyone, with or without AI assistance, because every compound it references is an audited artifact.
+
+This is a safety property, not a UX preference. AI code generation outpaces human review; AI composition over reviewed primitives does not. The composition remains legible by construction: opening a Blueprint shows which compounds it uses and how they connect, and every compound traces to an engineer who approved it.
+
+The full model — compound provenance, signatures, authoring roles, and the constraints that make this enforceable — is defined in [authoring-roles.md](authoring-roles.md).
+
 ---
+
 
 ## 2. Conformance language
 
