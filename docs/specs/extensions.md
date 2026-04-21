@@ -42,7 +42,7 @@ An **extension key** is an object key that begins with one of two prefixes:
 - **`ext.`** — the **reverse-DNS** prefix. Keys beginning with
   `ext.` SHOULD encode a reverse-DNS ownership claim:
   `ext.<reverse-dns-name>.<identifier>`. For example
-  `ext.com.coned.weather-refresh` or `ext.ai.c3.type-binding`.
+  `ext.com.acme.weather-refresh` or `ext.io.example.type-binding`.
   `ext.` signals that the author owns the namespace and intends the
   extension to be stable across tools.
 
