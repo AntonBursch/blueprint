@@ -200,6 +200,27 @@ A compound referencing itself directly would be infinite recursion at graph-cons
 
 ---
 
+## Related: groups and templates (authoring-time conveniences)
+
+The anti-patterns above all share a shape: users reaching for compounds to satisfy a need that isn't function abstraction. Two lighter-weight authoring constructs absorb those needs without disturbing the compound pillar:
+
+- **Groups** — visual regions on the canvas (a labeled box around a cluster of nodes). Groups are pure authoring-time metadata. They have no identity, no ports, no version, and do not exist at runtime; deleting a group leaves the nodes untouched. This is the right answer to "I just want these organized on the canvas."
+- **Templates** — named, reusable *snippets* of nodes that the editor can stamp out. Each stamp is **independent** after insertion (the nodes are copied, not referenced), so editing the template never reaches back to prior stamps. Templates have no runtime presence either; they are an editor/library convenience for patterns the author keeps re-assembling.
+
+Neither is a compound. Neither affects engines, adapters, or the canonical runtime graph. They form a natural ladder with compounds:
+
+| Construct | Identity | Ports | Updates propagate | Runtime artifact |
+|---|---|---|---|---|
+| **Group** | no | none | — | none |
+| **Template** | template itself has identity; stamps don't | none | no (detached on stamp) | none |
+| **Compound** | yes, versioned | yes | yes | yes |
+
+Supporting groups and templates *protects* the compound abstraction — it gives authors the right-sized construct for grouping and repetition, so they stop pressuring compounds into doing jobs compounds shouldn't do. Conversion up the ladder (group → compound via "Extract Compound"; compound → inline via "Inline Compound"; group → template via "Save as Template") is a first-class editor affordance, not a theory concern.
+
+These are editor/tooling concepts, not app-theory pillars, which is why they are named here as *related* and left to specs and the editor to detail.
+
+---
+
 ## Summary
 
 - A **compound** is a named, reusable graph wrapped as a function.
