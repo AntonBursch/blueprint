@@ -1,5 +1,13 @@
 # Blueprint Specification
 
+> **⚠️ Being rewritten.** These drafts predate the first working Blueprint engines and compilers. Implementing them surfaced decisions that don't hold up — vocabulary that needed to change, structure that needed to be inverted, and a missing layer (the canonical IR) that everything else has to be built on.
+>
+> The rewrite is happening on the [`ir-first`](https://github.com/AntonBursch/blueprint/tree/ir-first) branch, anchored on [`spec/ir/ir-kinds.md`](https://github.com/AntonBursch/blueprint/blob/ir-first/spec/ir/ir-kinds.md). The documents below are kept for history and will be replaced section by section as the rewrite stabilizes.
+>
+> If you want to know where Blueprint is going, read the `ir-first` branch. If you want to know how it got here, read on.
+
+---
+
 This directory contains the Blueprint specification, version 0.1.0-draft.
 
 ## Read the spec

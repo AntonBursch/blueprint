@@ -1,6 +1,6 @@
 # Blueprint Specification — Overview
 
-**Status:** Draft
+**Status:** Superseded — being rewritten on the [`ir-first`](https://github.com/AntonBursch/blueprint/tree/ir-first) branch. See [`docs/specs/README.md`](README.md) for context.
 **Version:** 0.1.0-draft
 **Editor:** Anton Bursch
 
